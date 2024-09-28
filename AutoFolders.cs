@@ -4,62 +4,55 @@ using System.Collections.Generic;
 using System.IO;
 public class AutoFolders : EditorWindow
 {
-    private static string projectName = "PROJECT_NAME";
-    [MenuItem("Assets/Create Default Folders")]
+    [MenuItem("Assets/Create Base Folders")]
     private static void SetUpFolders()
     {
         AutoFolders window = ScriptableObject.CreateInstance<AutoFolders>();
         window.position = new Rect(Screen.width / 2, Screen.height / 2, 400, 150);
         window.ShowPopup();
     }
-    private static void CreateAllFolders()
+    private static void CreateBaseFolders()
     {
         List<string> folders = new List<string>
         {
-        "Animations",
-        "Audio",
-        "Editor",
-        "Materials",
-        "Meshes",
-        "Prefabs",
-        "Scripts",
-        "Scenes",
-        "Shaders",
-        "Textures",
-        "UI"
+            "Animations",
+            "Audio",
+            "Editor",
+            "Materials",
+            "Meshes",
+            "Prefabs",
+            "Scripts",
+            "Scenes",
+            "Shaders",
+            "Resources",
+            "Textures",
+            "UI"
         };
         foreach (string folder in folders)
         {
             if (!Directory.Exists("Assets/" + folder))
             {
-                Directory.CreateDirectory("Assets/" + projectName + "/" + folder);
+                Directory.CreateDirectory("Assets/" + folder);
             }
         }
-        List<string> uiFolders = new List<string>
+        List<string> uiAssets = new List<string>
         {
-        "Assets",
-        "Fonts",
-        "Icon"
+            "Images",
+            "Fonts",
+            "Icon"
         };
-        foreach (string subfolder in uiFolders)
+        foreach (string subfolder in uiAssets)
         {
-            if (!Directory.Exists("Assets/" + projectName + "/UI/" + subfolder))
+            if (!Directory.Exists("Assets/" + "/UI/" + subfolder))
             {
-                Directory.CreateDirectory("Assets/" + projectName + "/UI/" + subfolder);
+                Directory.CreateDirectory("Assets/" + "/UI/" + subfolder);
             }
         }
         AssetDatabase.Refresh();
     }
     void OnGUI()
     {
-        EditorGUILayout.LabelField("Insert the Project name used as the root folder");
-        projectName = EditorGUILayout.TextField("Project Name: ", projectName);
-        this.Repaint();
-        GUILayout.Space(70);
-        if (GUILayout.Button("Generate!"))
-        {
-            CreateAllFolders();
-            this.Close();
-        }
+        CreateBaseFolders();
+        this.Close();
     }
 }
